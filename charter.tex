@@ -1,13 +1,13 @@
 \documentclass[
 11pt, % The default document font size, options: 10pt, 11pt, 12pt
-codirector, % Uncomment to add a codirector to the title page
+%codirector, % Uncomment to add a codirector to the title page
 ]{charter} 
 
 
 
 
 % El títulos de la memoria, se usa en la carátula y se puede usar el cualquier lugar del documento con el comando \ttitle
-\titulo{Sistema de control y monitoreo de tiempo de abastecimiento de camiones basado en una OrangePI5.} 
+\titulo{Sistema de control y monitoreo de tiempo de abastecimiento de camiones basado en una OrangePI5} 
 
 % Nombre del posgrado, se usa en la carátula y se puede usar el cualquier lugar del documento con el comando \degreename
 \posgrado{Carrera de Especialización en Sistemas Embebidos} 
@@ -20,15 +20,15 @@ codirector, % Uncomment to add a codirector to the title page
 \autor{Anthony Martyn Maisincho Jivaja} 
 
 % El nombre del director y co-director, se puede usar el cualquier lugar del documento con el comando \supname y \cosupname y \pertesupname y \pertecosupname
-\director{Nombre del Director}
-\pertenenciaDirector{pertenencia} 
+\director{MSc. Jefferson Cunalata}
+\pertenenciaDirector{SIEMAV S.A} 
 % FIXME:NO IMPLEMENTADO EL CODIRECTOR ni su pertenencia
 \codirector{John Doe} % para que aparezca en la portada se debe descomentar la opción codirector en el documentclass
 \pertenenciaCoDirector{FIUBA}
 
 % Nombre del cliente, quien va a aprobar los resultados del proyecto, se puede usar con el comando \clientename y \empclientename
-\cliente{Nombre del cliente}
-\empresaCliente{Empresa del cliente}
+\cliente{MSc. Geovanny Arguello}
+\empresaCliente{SIEMAV S.A}
 
 % Nombre y pertenencia de los jurados, se pueden usar el cualquier lugar del documento con el comando \jurunoname, \jurdosname y \jurtresname y \perteunoname, \pertedosname y \pertetresname.
 \juradoUno{Nombre y Apellido (1)}
@@ -39,8 +39,8 @@ codirector, % Uncomment to add a codirector to the title page
 \pertenenciaJurTres{pertenencia (3)}
  
 \fechaINICIO{22 de agosto de 2023}		%Fecha de inicio de la cursada de GdP \fechaInicioName
-\fechaFINALPlan{10 de septiembre de 2023} 	%Fecha de final de cursada de GdP
-\fechaFINALTrabajo{15 de mayo de 2022}	%Fecha de defensa pública del trabajo final
+\fechaFINALPlan{10 de octubre de 2023} 	%Fecha de final de cursada de GdP
+\fechaFINALTrabajo{15 de mayo de 2024}	%Fecha de defensa pública del trabajo final
 
 
 \begin{document}
@@ -69,7 +69,7 @@ codirector, % Uncomment to add a codirector to the title page
 \rowcolor[HTML]{C0C0C0} 
 Revisión & \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}Detalles de los cambios realizados} & Fecha      \\ \hline
 0      & Creación del documento                                 &\fechaInicioName \\ \hline
-%1      & Se completa hasta el punto 4 inclusive                 & dd/mm/aaaa \\ \hline
+1.0    & Se completa hasta el punto 5                           & 07/09/2023 \\ \hline
 %2      & Se completa hasta el punto 7 inclusive
 %		  Se puede agregar algo más \newline
 %		  En distintas líneas \newline
@@ -87,12 +87,12 @@ Revisión & \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}Detalles de los cambios 
 \label{sec:acta}
 
 \begin{flushright}
-Buenos Aires, \fechaInicioName
+Guayaquil, \fechaInicioName
 \end{flushright}
 
 \vspace{2cm}
 
-Por medio de la presente se acuerda con el Ing. \authorname\hspace{1px} que su Trabajo Final de la \degreename\hspace{1px} se titulará ``\ttitle'', consistirá esencialmente en \textcolor{red}{la implementación de un prototipo de un sistema de control de temperatura de un calefón}, y tendrá un presupuesto preliminar estimado de \textcolor{red}{600} h de trabajo y \textcolor{red}{\$XXX}, con fecha de inicio \fechaInicioName\hspace{1px} y fecha de presentación pública \fechaFinalName.
+Por medio de la presente se acuerda con el Ing. \authorname\hspace{1px} que su Trabajo Final de la \degreename\hspace{1px} se titulará ``\ttitle'', consistirá esencialmente en integrar en una OrangePI5 funcionalidades de un controlador lógico programable y ejecutar algoritmo de detección de objetos en videos en tiempo real, y tendrá un presupuesto preliminar estimado de 600 h de trabajo y \$10145 USD, con fecha de inicio \fechaInicioName\hspace{1px} y fecha de presentación pública \fechaFinalName.
 
 Se adjunta a esta acta la planificación inicial.
 
@@ -115,52 +115,27 @@ Se adjunta a esta acta la planificación inicial.
 \section{1. Descripción técnica-conceptual del proyecto a realizar}
 \label{sec:descripcion}
 
+SIEMAV S.A, empresa donde laboro, se dedica a generar soluciones tecnológicas innovadoras mediante el desarrollo de hardware y software a medida buscando mejorar la competitividad de sus clientes y optimizar su productividad. Actualmente uno de sus clientes requiere mejorar los tiempos de abastecimiento de camiones en uno de sus centros de distribución. 
 
-\begin{consigna}{red} % El bloque "consigna" se usa para poner texto en rojo y dar una pequeña ayuda sobre cómo completar la sección. En cada entrega parcial deben eliminar los comandos begin y end del bloque consigna de las secciones que hayan completado.
+SIEMAV S.A propuso un sistema basado en un controlador lógico programable (PLC) y una mini CPU de altas prestaciones. El PLC actualmente se encarga del control del tablero eléctrico, mientras que la CPU es empleado para ejecutar el algoritmo detección de objetos en imágenes y videos en tiempo real.
 
-El objetivo es que el lector en una o dos páginas entienda de qué trata el proyecto y cuáles son sus desafíos, cuál es la motivación para realizarlo y su importancia.
+Siempre buscando optimizar recursos y abaratar costos al producto final, se planteó utilizar un sistema embebido que sea capaz de asumir el rol del PLC y la CPU. Para esto se debe reestructurar el proyecto, integrando todo el sistema en una ORANGEPI5. Actualmente este SBC(\textit{System board Computer}) no ha sido utilizado en la empresa. Por lo tanto, se tiene como desafío migrar toda la funcionalidad del sistema en una sola placa embebida. 
 
-Se debe introducir el contexto del proyecto, el estado del arte en la temática, describir la propuesta de valor, cúal es el problema que atiende y cuál es la solución que se propone. Se debe dar una descripción funcional de la solución que incluya un diagrama en bloques.
+Utilizar una sola placa embebida como la ORANGEPI5 es una solución altamente eficiente y coste-efectiva. Al integrar todas las funcionalidades en este equipo se disminuirá la complejidad de la infraestructura. Además,  se aprovechará su unidad de procesamiento de redes neuronales para la detección de los camiones parqueados y también sus periféricos para el control del tablero. Permitiendo  una mayor eficiencia energética, ahorro en términos de hardware, espacio físico, mantenimiento y optimización de recursos. 
 
-Puede ser útil incluir en esta sección la respuesta a alguna de estas preguntas:
-
-\begin{itemize}
-	\item ¿Cuál es el contexto del proyecto, es un emprendimiento personal, un proyecto para una empresa, es parte del programa de vinculación con empresas del posgrado?
-	\item ¿Existen o aplican condiciones especiales al proyecto, financiamiento de algún programa público o privado, acuerdos de confidencialidad, acuerdos sobre la propiedad intelectual de los entregables u otros?
-	\item ¿Cómo se compara la solución propuesta con el estado del arte en el campo de aplicación? ¿En qué aspectos destaca?
-	\item ¿Ayuda a la explicación si se incluye un lienzo Canvas del Modelo de Negocio?
-	\item ¿En qué estado del ciclo de vida está la solución que se propone?
-	\item ¿Cuáles son las características del cliente (el adoptante de los entregables del proyecto) qué valora, qué necesita?
-	\item ¿Por dónde pasa la innovación?
-\end{itemize}
-
-La descripción técnica-conceptual \textbf{debe incluir al menos un diagrama en bloques del sistema} y descripción funcional de la solución propuesta.
-
-Las figuras se deben mencionar en el texto ANTES de que aparezcan con una frase como la siguiente: ``En la Figura \ref{fig:diagBloques} se presenta el diagrama en bloques del sistema. Se observa que...''.  La regla es que las figuras nunca pueden ir antes de ser mencionadas en el texto, porque sino el lector no entiende por qué de pronto aparece una figura.
-
+En la Figura \ref{fig:diagBloques} se presenta el diagrama en bloques del sistema. Se identifica tres fases, la primera es el montaje del algoritmo YOLOV8. La segunda la comunicación y el manejo de la placa PLC SIEMAV, esto permitirá control del tablero eléctrico. Finalmente, comunicación con cámaras IP y tablero LED, importante para la obtención de datos de imágenes e interfaz visual para los operadores respectivamente.
 \begin{figure}[htpb]
 \centering 
-\includegraphics[width=.5\textwidth]{./Figuras/diagBloques.png}
+\includegraphics[width=1\textwidth]{./Figuras/diagramabloques.jpg}
 \caption{Diagrama en bloques del sistema}
 \label{fig:diagBloques}
 \end{figure}
 
 \vspace{25px}
 
-El tamaño de la tipografía en TODAS las figuras debe ser adecuado para que NO pase lo que ocurre acá, donde el lector debe esforzarse para poder leer el texto. Los colores usados en el diagrama deben ser adecuados, tal que ayuden a comprender mejor el diagrama, preferentemente en la gama de colores pastel.
-\end{consigna}
 
 \section{2. Identificación y análisis de los interesados}
 \label{sec:interesados}
-
-\begin{consigna}{red} % este comando se debe borrar para la entrega, junto con la contraparte \end{consigna}{red} 
- 
-\textbf{Nota importante:} borrar esto y todas las consignas en color rojo antes de entregar este documento). Esto se hace eliminando el par de comandos que forman el bloque consigna, \verb!\begin{consigna}{red}! y \verb!\end{consigna}{red}! del código. 
- 
-Es inusual que una misma persona esté en más de un rol, incluso en proyectos chicos. Si se considera que una persona cumple dos o más roles, entonces solo dejarla en el rol más importante. 
-
-Por ejemplo, si una persona es Cliente pero también colabora u orienta, dejarla solo como Cliente. Si una persona es el Responsable, no debe ser colocado también como miembro del equipo.
-
 
 \begin{table}[ht]
 %\caption{Identificación de los interesados}
@@ -169,75 +144,60 @@ Por ejemplo, si una persona es Cliente pero también colabora u orienta, dejarla
 \hline
 \rowcolor[HTML]{C0C0C0} 
 Rol           & Nombre y Apellido & Organización 	& Puesto 	\\ \hline
-Auspiciante   &                   &              	&        	\\ \hline
-Cliente       & \clientename      &\empclientename	&        	\\ \hline
-Impulsor      &                   &              	&        	\\ \hline
+Auspiciante   & -                 &   SIEMAV S.A    &-         	\\ \hline
+Cliente       & \clientename      &\empclientename	& C.T.O       	\\ \hline
 Responsable   & \authorname       & FIUBA        	& Alumno 	\\ \hline
-Colaboradores &                   &              	&        	\\ \hline
+Colaboradores &Ing. Oscar Caranqui& SIEMAV S.A      & Consultor firmware\\ \hline
 Orientador    & \supname	      & \pertesupname 	& Director Trabajo final \\ \hline
-Equipo        & miembro1 \newline 
-				miembro2          &              	&        	\\ \hline
-Opositores    &                   &              	&        	\\ \hline
-Usuario final &                   &              	&        	\\ \hline
 \end{tabularx}
 \end{table}
 
-El Director suele ser uno de los Orientadores.
-
-No dejar celdas vacías; si no hay nada que poner en una celda colocar un signo ``-''.
-
-No dejar filas vacías; si no hay nada que poner en una fila entonces eliminarla.
-
-Es deseable listar a continuación las principales características de cada interesado.
- 
-Por ejemplo:
 \begin{itemize}
-	\item Auspiciante: es riguroso y exigente con la rendición de gastos. Tener mucho cuidado con esto.
-	\item Equipo: Juan Perez, suele pedir licencia porque tiene un familiar con una enfermedad. Planificar considerando esto.
-	\item Orientador: María Gómez va a poder ayudar mucho con la definición de los requerimientos.
+	\item Auspiciante: Empresa que impulsa el desarrollo tecnológico, un gran apoyo en adquisición de todos los equipos necesarios.
+	\item Equipo: Oscar Caranqui, ingeniero de proyectos, domina la programación de SBC y con buen criterio al momento de desarrollar proyectos.
+	\item Orientador: Con amplia trayectoria en el desarrollo de hardware y firmware para sistemas embebidos, ayudará mucho con soporte, consultoría y objetivos del proyecto.
 \end{itemize}
-
-\end{consigna} % este comando se debe borrar para la entrega, junto con la contraparte \begin{consigna}{red}
-
 
 
 \section{3. Propósito del proyecto}
 \label{sec:proposito}
-
-\begin{consigna}{red}
-¿Por qué se hace el proyecto? ¿Qué se quiere lograr? 
-
-Se recomienda que sea solo un párrafo que empiece diciendo ``El propósito de este proyecto es...''.
-\end{consigna}
+El propósito del proyecto es integrar todo el sistema de control y monitoreo de tiempo de abastecimiento de camiones en un solo sistema embebido. Con esto se quiere lograr un sistema mas económico, reducir la complejidad de la infraestructura y aprovechar al máximo la OrangePI5.
 
 \section{4. Alcance del proyecto}
 \label{sec:alcance}
-
-\begin{consigna}{red}
-¿Qué se incluye y que no se incluye en este proyecto?
-
-Se refiere al trabajo a hacer para entregar el producto o resultado especificado. 
-
-Explicitar todo lo quede comprendido dentro del alcance del proyecto.
-
-Explicitar además todo lo que no quede incluido (``El presente proyecto no incluye...'')
-
-\end{consigna}
-
+Las actividades dentro del alcance del proyecto consiste en lo siguiente:
+\begin{itemize}
+	\item Estudio de la tarjeta PLC de la empresa auspiciante.
+	\item Adaptación y correciones del hardware actual de la tarjeta PLC para que funcione con la OrangePI5. 
+	\item Desarrollo de software para manejo de la tarjeta PLC de SIEMAV y pruebas de su funcionamiento.
+	\item Desarrollo de software para el manejo del tablero LED.
+	\item Estudio de como usar la NPU de la OrangePI5.
+	\item Integrar algoritmo de detección de objetos e imágenes "YOLOV8" en la ORANGEPI5 usando la NPU.
+	\item Estudio de como integrar diferentes tareas en una ORANGEPI5, ya que se debe interactuar con la tarjeta PLC, extraer imágenes y procesarlas y comunicarse con tableros LED.
+\end{itemize}
+Las actividades fuera del alcance del proyecto son las siguientes:
+\begin{itemize}
+	\item Entrenamiento del algoritmo de detección de imágenes.
+	\item Correcciones a características de funcionamiento del algoritmo YOLOV8.
+	\item Implementación del tablero de control eléctrico.
+	\item Instalación en campo del sistema.
+\end{itemize}
 
 \section{5. Supuestos del proyecto}
 \label{sec:supuestos}
 
-\begin{consigna}{red}
-``Para el desarrollo del presente proyecto se supone que: ...''
+
+Para el desarrollo del presente proyecto se supone que:
 
 \begin{itemize}
-	\item Supuesto 1
-	\item Supuesto 2...
+	\item La importación de la ORANGEPI5 no tomará mas de 1 mes.
+	\item Correr el algoritmo de detección de objetos e imágenes en la OrangePI5 no implique profundizar en este tema.
+	\item Se dispondrá de todos los recursos necesarios para el desarrollo eficiente del proyecto.
+	\item La correción del hardware para adaptar la tarjeta PLC de SIEMAV a la ORANGEPI5 no requiera de extensas modificaciones.
+	\item Tener la nueva tarjeta PLC en máximo 3 meses.
+	\item Habrá un seguimiento por parte del director y del colaborador del proyecto al menos una vez mensual.
 \end{itemize}
 
-Por ejemplo, se podrían incluir supuestos respecto a disponibilidad de tiempo y recursos humanos y materiales, sobre la factibilidad técnica de distintos aspectos del proyecto, sobre otras cuestiones que sean necesarias para el éxito del proyecto como condiciones macroeconómicas o reglamentarias.
-\end{consigna}
 
 \section{6. Requerimientos}
 \label{sec:requerimientos}
