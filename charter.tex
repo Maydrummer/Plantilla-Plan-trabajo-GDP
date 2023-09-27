@@ -3,6 +3,7 @@
 %codirector, % Uncomment to add a codirector to the title page
 ]{charter} 
 
+\usepackage{pgfgantt}
 
 
 
@@ -71,6 +72,8 @@ Revisión & \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}Detalles de los cambios 
 0      & Creación del documento                                 &\fechaInicioName \\ \hline
 1.0    & Se completa hasta el punto 5                           & 07/09/2023 \\ \hline
 2.0    & Se completa hasta el punto 9 y se hacen correciones    & 14/09/2023 \\ \hline
+3.0    & Se completa hasta el punto 12 y se hacen correciones    & 26/09/2023 \\ \hline
+
 %		  Se puede agregar algo más \newline
 %		  En distintas líneas \newline
 %		  Así                                                    & dd/mm/aaaa \\ \hline
@@ -171,7 +174,7 @@ Las actividades dentro del alcance del proyecto consiste en lo siguiente:
 	\item Adaptación y correciones del hardware actual de la tarjeta PLC para que funcione con la OrangePI5. 
 	\item Desarrollo de software para manejo de la tarjeta PLC de SIEMAV y pruebas de su funcionamiento.
 	\item Desarrollo de software para el manejo del tablero LED.
-	\item Estudio de como usar la NPU de la OrangePI5.
+	\item Estudio de cómo usar la NPU de la OrangePI5.
 	\item Integrar algoritmo de detección de objetos e imágenes YOLOV8 en la ORANGEPI5 usando la NPU.
 	\item Estudio de como integrar diferentes tareas en una ORANGEPI5, ya que se debe interactuar con la tarjeta PLC, extraer imágenes y procesarlas y comunicarse con tableros LED.
 \end{itemize}
@@ -192,10 +195,10 @@ Para el desarrollo del presente proyecto se supone que:
 \begin{itemize}
 	\item La importación de la ORANGEPI5 no tomará más de un mes.
 	\item Correr el algoritmo de detección de objetos e imágenes en la OrangePI5 no implicará profundizar en este tema.
-	\item Se dispondrá de todos los recursos necesarios para el desarrollo eficiente del proyecto.
-	\item La versión actual de la tarjeta "Módulo PLC"  de SIEMAV, no requerirá de extensas modificaciones para la adaptación a la OrangePI5.
+	\item Se dispondrá de todos los recursos necesarios como placa, cámaras, tablero LED para el desarrollo eficiente del proyecto.
+	\item La versión actual de la tarjeta Módulo PLC de SIEMAV, no requerirá de extensas modificaciones para la adaptación a la OrangePI5.
 	\item Tomará menos de tres meses disponer del nuevo "Módulo PLC".
-	\item Habrá un seguimiento por parte del director y del colaborador del proyecto al menos una vez mensualmente.
+	\item Habrá un seguimiento por parte del director y del colaborador del proyecto mensualmente.
 \end{itemize}
 
 
@@ -216,21 +219,23 @@ Para el desarrollo del presente proyecto se supone que:
 		\begin{enumerate}
 			\item La OrangePI5 debe leer estado de selectores, pulsadores, contactos auxiliares y paro de emergencia.
 			\item La OrangePI5 controlará las balizas mediante el manejo de las salidas de la tarjeta PLC de SIEMAV.
-			\item La OrangePI5 controlará las luces pilotos verde y rojo mendiante la tarjeta PLC de SIEMAV.
+			\item La OrangePI5 controlará las luces piloto verde y rojo mendiante la tarjeta PLC de SIEMAV.
 			\item Dentro del tablero se tendrá la OrangePI5 como tarjeta maestro o controladora del sistema.
 		\end{enumerate}
 	\item Requerimiento de interfaz de usuario
 		\begin{enumerate}
-			\item El tablero mediante sus luces pilotos verde y rojo por andén, indicarán el estado de inicio y final del proceso.
-			\item Un selector de tres posiciones seleccionará el modo de funcionamiento del tablero, ya sea manual o automático.
-			\item Se contará con un pulsador por andén, el cual deberá ser presionado para iniciar el proceso y conteo del temporizador.
+			\item El tablero, mediante sus luces piloto verde y rojo por andén, indicarán el estado de inicio y final del proceso.
+			\item Un selector de tres posiciones por andén establecerá el modo de funcionamiento del tablero, cuando el selector esté a la izquierda estaremos en modo manual, en el caso de la derecha modo automático, y cuando se encuentre en el centro, signica que ese andén esta fuera de servicio.
+			\item Se contará con dos pulsadores por andén, estos serán utilizados en el caso de que estemos en modo manual, cuando se presiona el pulsador uno significa que el parqueo o andén esta ocupado, cuando se presiona el pulsador dos, signica que el andén ha sido desocupado.
+			\item Cuando estamos en modo manual y se utilizan los pulsadores, el sistema tendrá que iniciar la cuenta, mostrar en las balizas el estado del proceso e indicar el tiempo en el tablero LED.
 			\item Cada andén tendrá una baliza, el color verde indica que hay tiempo y el rojo que se expiró el tiempo.
 			\item Se utilizará tableros LED como cronómetros digitales, donde el usuario tendrá información del tiempo actual.
 		\end{enumerate}
 	\item Requerimientos de software
 		\begin{enumerate}
-			\item El software debe detectar cuando un andén es ocupado por el camión, tomando la hora y registrarla como hora de entrada.
-			\item Cuando el camión desocupe el andén, se registra la hora de salida.
+			\item Cuando el tablero esté en modo automático, el software debe detectar cuando un andén es ocupado por el camión, mediante el algoritmo de detección de objetos, posterior a esto se inicia el temporizador.
+			\item Cuando se detecte el camión en el andén, el software debe guardar la hora de entrada.
+			\item Cuando el camión desocupe el andén, se  debe registrar la hora de salida.
 			\item La creación de la API que controlará la tarjeta PLC de SIEMAV, será desarrollado en python.
 			\item Se desarrollará una API en python para controlar los tableros de LED.
 			\item Se debe utilizar la NPU de la OrangePI5 para el procesamiento de imágenes y vídeos.
@@ -245,27 +250,27 @@ Para el desarrollo del presente proyecto se supone que:
 \label{sec:backlog}
 Las historias de usuario llevarán un puntaje según 3 aspectos:
 \begin{itemize}
-	\item Dificultad: Cantidad de trabajo a realizar.
-	\item Complejidad: Nivel de sofisticación del trabajo.
-	\item Incertidumbre: Nivel de riesgo que involucra realizar la tarea.
+	\item Dificultad: cantidad de trabajo a realizar.
+	\item Complejidad: nivel de sofisticación del trabajo.
+	\item Incertidumbre: nivel de riesgo que involucra realizar la tarea.
 \end{itemize}
 
 \begin{enumerate}
-	\item Como gerente tecnológico, deseo aprovechar al máximo la OrangePI5, de tal forma que pueda ser el CPU y PLC del proceso.
+	\item Como gerente tecnológico, deseo aprovechar al máximo la OrangePI5 para evitar tener que comprar un componente de hardware adicional.
 		\begin{itemize}
 			\item Dificultad: 3
 			\item Complejidad: 5
 			\item Incertidumbre: 5
 			\item Total: 13
 		\end{itemize}
-	\item Como operador de abastecimiento, deseo tener información del tiempo transcurrido durante la maniobra.
+	\item Como operador de abastecimiento, deseo tener información del tiempo transcurrido durante la maniobra, para cumplir con los tiempos de abastecimiento.
 		\begin{itemize}
 			\item Dificultad: 1
 			\item Complejidad: 1
 			\item Incertidumbre: 1
 			\item Total: 3
 		\end{itemize}	
-	\item Como programador del PLC de SIEMAV, deseo tener una API práctica y sencilla para manejar las entradas y salidas de la tarjeta.
+	\item Como programador del PLC de SIEMAV, deseo tener una API práctica y sencilla, para manejar las entradas y salidas de la tarjeta.
 		\begin{itemize}
 			\item Dificultad: 5
 			\item Complejidad: 3
@@ -284,7 +289,7 @@ Las historias de usuario llevarán un puntaje según 3 aspectos:
 \label{sec:entregables}
 
 
-Los entregables del proyecto son (ejemplo):
+Los entregables del proyecto son:
 
 \begin{itemize}
 	\item Documentación de uso de la NPU en la OrangePI5
@@ -305,7 +310,7 @@ Los entregables del proyecto son (ejemplo):
 	\item Preparación de la memoria de trabajo (40 hs)
 	\item Redacción de la memoria de trabajo (40 hs)
 	\end{enumerate}
-\item investigación preliminar (100 hs)
+\item Investigación preliminar (100 hs)
 	\begin{enumerate}
 	\item Arquitectura y periféricos de la OrangePI5 (20 hs)
 	\item Uso de la NPU en la OrangePI5 (20 hs)
@@ -315,9 +320,9 @@ Los entregables del proyecto son (ejemplo):
 \item Desarrollo de firmware (65 hs)
 	\begin{enumerate}
 	\item Preparación del framework (5 hs)
-	\item Modulo para manejo de tarjeta PLC de SIEMAV (20 hs)
+	\item Módulo para manejo de tarjeta PLC de SIEMAV (20 hs)
 	\item Creación de API para control de PLC de SIEMAV (10 hs)
-	\item Modulo para control de tablero de LED basado en tramas UDP (20 hs)
+	\item Módulo para control de tablero de LED basado en tramas UDP (20 hs)
 	\item API para trama UDP (10 hs)
 	\end{enumerate}
 \item Uso de la NPU (100 hs)
@@ -325,15 +330,15 @@ Los entregables del proyecto son (ejemplo):
 	\item Adaptación del algoritmo YOLOV8 a la OrangePI5 (40 hs)
 	\item Testeo del algoritmo utilizando la NPU (20 hs)
 	\item Pruebas de rendimiento  (20 hs)
-	\item Ajustes finos (20 hs)
+	\item Ajustes y corrección de errores (20 hs)
 	\end{enumerate}
 \item Inplementación del software de la aplicación (130 hs)
 	\begin{enumerate}
-	\item Importación de librerías y módulos creados (10 hs)
+	\item Importación de bibliotecas y módulos creados (10 hs)
 	\item Diseño conceptual de la aplicación (20 hs)
 	\item Adaptación de las diferentes tareas a la aplicación  (40 hs)
 	\item Operación manual de la aplicación (20 hs)
-	\item Operación automático de la aplicación (20 hs)
+	\item Operación automática de la aplicación (20 hs)
 	\item Testeo de la aplicación (20 hs)
 	\end{enumerate}
 \item Pruebas finales (120 hs)
@@ -341,7 +346,7 @@ Los entregables del proyecto son (ejemplo):
 	\item Prueba del modo manual (20 hs)
 	\item Prueba del modo automático (20 hs)
 	\item Rendimiento de la OrangePI5 durante todo el proceso (40 hs)
-	\item Correcciones (20 hs)
+	\item Depuración y corrección de errores (20 hs)
 	\end{enumerate}
 \end{enumerate}
 
@@ -354,154 +359,157 @@ Cantidad total de horas: (630 hs)
 \section{10. Diagrama de Activity On Node}
 \label{sec:AoN}
 
-\begin{consigna}{red}
-Armar el AoN a partir del WBS definido en la etapa anterior. 
+Se muestra en la Figura \ref{fig:AoN} el diagrama \textit{Activity on Node}, donde la variable \textit{t} representa las horas que tomará la tarea. El camino crítico marcado en negrita indica que el proyecto puede finalizarse en un tiempo mínimo de 565 horas.
 
-%La figura \ref{fig:AoN} fue elaborada con el paquete latex tikz y pueden consultar la siguiente referencia \textit{online}:
-
-%\url{https://www.overleaf.com/learn/latex/LaTeX_Graphics_using_TikZ:_A_Tutorial_for_Beginners_(Part_3)\%E2\%80\%94Creating_Flowcharts}
-
-\end{consigna}
 
 \begin{figure}[htpb]
 \centering 
-\includegraphics[width=.8\textwidth]{./Figuras/AoN.png}
+\includegraphics[width=1.1\textwidth]{./Figuras/Activity on node.jpg}
 \caption{Diagrama de \textit{Activity on Node}.}
 \label{fig:AoN}
 \end{figure}
-
-Indicar claramente en qué unidades están expresados los tiempos.
-De ser necesario indicar los caminos semicríticos y analizar sus tiempos mediante un cuadro.
-Es recomendable usar colores y un cuadro indicativo describiendo qué representa cada color, como se muestra en el siguiente ejemplo:
 
 
 
 \section{11. Diagrama de Gantt}
 \label{sec:gantt}
 
-\begin{consigna}{red}
-
-Existen muchos programas y recursos \textit{online} para hacer diagramas de Gantt, entre los cuales destacamos:
-
-\begin{itemize}
-\item Planner
-\item GanttProject
-\item Trello + \textit{plugins}. En el siguiente link hay un tutorial oficial: \\ \url{https://blog.trello.com/es/diagrama-de-gantt-de-un-proyecto}
-\item Creately, herramienta online colaborativa. \\\url{https://creately.com/diagram/example/ieb3p3ml/LaTeX}
-\item Se puede hacer en latex con el paquete \textit{pgfgantt}\\ \url{http://ctan.dcc.uchile.cl/graphics/pgf/contrib/pgfgantt/pgfgantt.pdf}
-\end{itemize}
-
-Pegar acá una captura de pantalla del diagrama de Gantt, cuidando que la letra sea suficientemente grande como para ser legible. 
-Si el diagrama queda demasiado ancho, se puede pegar primero la ``tabla'' del Gantt y luego pegar la parte del diagrama de barras del diagrama de Gantt.
-
-Configurar el software para que en la parte de la tabla muestre los códigos del EDT (WBS).\\
-Configurar el software para que al lado de cada barra muestre el nombre de cada tarea.\\
-Revisar que la fecha de finalización coincida con lo indicado en el Acta Constitutiva.
-
-En la figura \ref{fig:gantt}, se muestra un ejemplo de diagrama de Gantt realizado con el paquete de \textit{pgfgantt}. En la plantilla pueden ver el código que lo genera y usarlo de base para construir el propio.
-
-\begin{figure}[htbp]
-\begin{center}
-\begin{ganttchart}{1}{12}
-  \gantttitle{2020}{12} \\
-  \gantttitlelist{1,...,12}{1} \\
-  \ganttgroup{Group 1}{1}{7} \\
-  \ganttbar{Task 1}{1}{2} \\
-  \ganttlinkedbar{Task 2}{3}{7} \ganttnewline
-  \ganttmilestone{Milestone o hito}{7} \ganttnewline
-  \ganttbar{Final Task}{8}{12}
-  \ganttlink{elem2}{elem3}
-  \ganttlink{elem3}{elem4}
-\end{ganttchart}
-\end{center}
-\caption{Diagrama de Gantt de ejemplo}
-\label{fig:gantt}
-\end{figure}
-
+El siguiente \textit{Diagrama de Gantt} fue elaborado en base a una carga semanal de veinte horas, donde se incluyen los sábados y domingos como días laborables.
 
 \begin{landscape}
-\begin{figure}[htpb]
-\centering 
-\includegraphics[height=.85\textheight]{./Figuras/Gantt-2.png}
-\caption{Ejemplo de diagrama de Gantt rotado}
-\label{fig:diagGantt}
-\end{figure}
+\begin{ganttchart}[
+	hgrid,
+	vgrid,
+	x unit=0.07cm,
+	y unit chart=0.65cm,
+	time slot format=isodate,
+	time slot unit=day,
+	bar/.append style={fill=green!30},
+	group/.append style={fill=green!50},
+	link/.style={->, thick}
+	]{2023-08-23}{2024-05-15}
+	
+	\gantttitlecalendar{year, month} \\
+	
+	\ganttgroup{1 Gestión del proyecto}{2023-08-23}{2024-05-05} \\
+	\ganttbar{1.1 Plan de trabajo}{2023-08-23}{2023-08-28} \\
+	\ganttbar{1.2 Memoria de trabajo}{2024-04-15}{2024-05-05} \\
+	
+	\ganttgroup{2 Investigación}{2023-10-16}{2023-11-19} \\
+	\ganttbar{2.1 Arquitectura y periféricos OPI5}{2023-10-16}{2023-10-22} \\
+	\ganttbar{2.2 NPU de la OPI5}{2023-10-23}{2023-10-29} \\
+	\ganttbar{2.3 Protocolo UDP}{2023-10-30}{2023-11-05} \\
+	\ganttbar{2.3 Algoritmo YOLOV8}{2023-11-06}{2023-11-19} \\
+	
+	\ganttgroup{3 Firmware}{2023-11-20}{2023-12-15} \\
+	\ganttbar{3.1 Preparación framework}{2023-11-20}{2023-11-22} \\
+	\ganttbar{3.2 Módulo tarjeta PLC SIEMAV}{2023-11-23}{2023-11-30} \\
+	\ganttbar{3.3 API para tarjeta PLC SIEMAV}{2023-12-01}{2023-12-03} \\
+	\ganttbar{3.4 Módulo para tablero LED}{2023-12-04}{2023-12-10} \\
+	\ganttbar{3.4 API para tablero LED}{2023-12-11}{2023-12-15} \\
 
+	\ganttgroup{4 Uso de la NPU}{2023-12-16}{2024-01-24} \\
+	\ganttbar{4.1 YOLOV8 en la OPI5}{2023-12-16}{2023-12-30} \\
+	\ganttbar{4.2 Test algoritmo YOLOV8}{2024-01-03}{2024-01-10} \\
+	\ganttbar{4.3 Pruebas de rendimiento}{2024-01-11}{2024-01-17} \\
+	\ganttbar{4.4 Ajustes y corrección de errores}{2024-01-18}{2024-01-24} \\
+	
+\end{ganttchart}
 \end{landscape}
 
-\end{consigna}
+\begin{landscape}
+	\begin{ganttchart}[
+		hgrid,
+		vgrid,
+		x unit=0.07cm,
+		y unit chart=0.65cm,
+		time slot format=isodate,
+		time slot unit=day,
+		bar/.append style={fill=green!30},
+		group/.append style={fill=green!50},
+		link/.style={->, thick}
+		]{2023-08-23}{2024-05-15}
+		
+		\gantttitlecalendar{year, month} \\
+		
+		\ganttgroup{5 Integración software}{2024-01-25}{2024-03-10} \\
+		\ganttbar{5.1 Uso de módulos y bibliotecas}{2024-01-25}{2024-01-28} \\
+		\ganttbar{5.2 Diseño conceptual de la aplicación}{2024-01-29}{2024-02-04} \\
+		\ganttbar{5.3 Adaptación y gestión de procesos}{2024-02-05}{2024-02-18} \\
+		\ganttbar{5.4 Modo manual}{2024-02-19}{2024-02-25} \\
+		\ganttbar{5.5 Modo automático}{2024-02-26}{2024-03-03} \\
+		\ganttbar{5.6 Testeo de la aplicación}{2024-03-04}{2024-03-10} \\
+		
+		\ganttgroup{6 Pruebas finales}{2024-03-11}{2023-12-15} \\
+		\ganttbar{6.1 Test modo manual}{2024-03-11}{2024-03-17} \\
+		\ganttbar{6.2 Test modo auto}{2024-03-18}{2024-03-24} \\
+		\ganttbar{6.3 Pruebas de rendimiento OPI5}{2024-03-25}{2024-04-07} \\
+		\ganttbar{6.4 Depuración y correción de errores}{2024-04-08}{2024-04-14} \\
+		
+	\end{ganttchart}
+	\end{landscape}
+	
+	
 
 
 \section{12. Presupuesto detallado del proyecto}
 \label{sec:presupuesto}
 
-\begin{consigna}{red}
-Si el proyecto es complejo entonces separarlo en partes:
-\begin{itemize}
-	\item Un total global, indicando el subtotal acumulado por cada una de las áreas.
-	\item El desglose detallado del subtotal de cada una de las áreas.
-\end{itemize}
-
-IMPORTANTE: No olvidarse de considerar los COSTOS INDIRECTOS.
-
-\end{consigna}
-
 \begin{table}[htpb]
-\centering
-\begin{tabularx}{\linewidth}{@{}|X|c|r|r|@{}}
-\hline
-\rowcolor[HTML]{C0C0C0} 
-\multicolumn{4}{|c|}{\cellcolor[HTML]{C0C0C0}COSTOS DIRECTOS} \\ \hline
-\rowcolor[HTML]{C0C0C0} 
-Descripción &
-  \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}Cantidad} &
-  \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}Valor unitario} &
-  \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}Valor total} \\ \hline
- &
-  \multicolumn{1}{c|}{} &
-  \multicolumn{1}{c|}{} &
-  \multicolumn{1}{c|}{} \\ \hline
- &
-  \multicolumn{1}{c|}{} &
-  \multicolumn{1}{c|}{} &
-  \multicolumn{1}{c|}{} \\ \hline
-\multicolumn{1}{|l|}{} &
-   &
-   &
-   \\ \hline
-\multicolumn{1}{|l|}{} &
-   &
-   &
-   \\ \hline
-\multicolumn{3}{|c|}{SUBTOTAL} &
-  \multicolumn{1}{c|}{} \\ \hline
-\rowcolor[HTML]{C0C0C0} 
-\multicolumn{4}{|c|}{\cellcolor[HTML]{C0C0C0}COSTOS INDIRECTOS} \\ \hline
-\rowcolor[HTML]{C0C0C0} 
-Descripción &
-  \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}Cantidad} &
-  \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}Valor unitario} &
-  \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}Valor total} \\ \hline
-\multicolumn{1}{|l|}{} &
-   &
-   &
-   \\ \hline
-\multicolumn{1}{|l|}{} &
-   &
-   &
-   \\ \hline
-\multicolumn{1}{|l|}{} &
-   &
-   &
-   \\ \hline
-\multicolumn{3}{|c|}{SUBTOTAL} &
-  \multicolumn{1}{c|}{} \\ \hline
-\rowcolor[HTML]{C0C0C0}
-\multicolumn{3}{|c|}{TOTAL} &
-   \\ \hline
-\end{tabularx}%
-\end{table}
+	\centering
+	\caption{Costos del proyecto de tesis.}
+	\label{tab:presupuesto}
+	\small
+	\begin{tabularx}{\linewidth}{@{}|X|c|r|r|@{}}
+	\hline
+	\rowcolor[HTML]{C0C0C0} 
+	\multicolumn{4}{|c|}{\cellcolor[HTML]{C0C0C0}COSTOS DIRECTOS} \\ \hline
+	\rowcolor[HTML]{C0C0C0} 
+	 &
+	  \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}Cantidad} &
+	  \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}Valor unitario} &
+	  \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}Valor total} \\ 
+	\rowcolor[HTML]{C0C0C0} Descripción  &
+	  \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}} &
+	  \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0} \$ USD} &
+	  \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0} \$ USD} \\ \hline
+	  
+	\multicolumn{4}{|c|}{\textbf{MATERIALES Y SUMINISTROS}}\\ \hline
+	OrangePI5 	& \multicolumn{1}{c|}{	1	} & \multicolumn{1}{c|}{	200	} &  \multicolumn{1}{c|}{	200	} \\ \hline
+	Tarjeta controladora esclavo	& \multicolumn{1}{c|}{	2	} & \multicolumn{1}{c|}{	320	} &  \multicolumn{1}{c|}{	640	} \\ \hline
+	Tarjeta controladora maestro		& \multicolumn{1}{c|}{	1	} & \multicolumn{1}{c|}{	560	} &  \multicolumn{1}{c|}{	560	} \\ \hline
+	Cámaras	IP + Algoritmo machine learning		& \multicolumn{1}{c|}{	1	} & \multicolumn{1}{c|}{	550	} &  \multicolumn{1}{c|}{	550	} \\ \hline
+	Tablero LED para exteriores			& \multicolumn{1}{c|}{	1	} & \multicolumn{1}{c|}{	650	} &  \multicolumn{1}{c|}{	650	} \\ \hline
+	Memoria SD			& \multicolumn{1}{c|}{	1	} & \multicolumn{1}{c|}{	20	} &  \multicolumn{1}{c|}{	20	} \\ \hline
+	Batería					& \multicolumn{1}{c|}{	4	} & \multicolumn{1}{c|}{	10	} &  \multicolumn{1}{c|}{	40	} \\ \hline
 
+	
+	\multicolumn{4}{|c|}{\textbf{OTROS COSTOS DIRECTOS}}\\ \hline
+	Imprevistos	($\sim$10\% del total del  proyecto)				& \multicolumn{1}{c|}{	1	} & \multicolumn{1}{c|}{	266	} &  \multicolumn{1}{c|}{	266	} \\ \hline
+	
+	\multicolumn{3}{|c|}{SUBTOTAL COSTOS DIRECTOS} & \multicolumn{1}{c|}{ 2.926 } \\ \hline
+	
+	\rowcolor[HTML]{C0C0C0} 
+	\multicolumn{4}{|c|}{\cellcolor[HTML]{C0C0C0}COSTOS INDIRECTOS} \\ \hline
+	\rowcolor[HTML]{C0C0C0} 
+	 &
+	  \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}Cantidad} &
+	  \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}Valor unitario} &
+	  \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}Valor total} \\  
+	\rowcolor[HTML]{C0C0C0} Descripción  &
+	\multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}} &
+	\multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0} \$ USD} &
+	\multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0} \$ USD} \\ \hline
+	Alquiler, mantenimiento y servicios generales del lugar de trabajo	& \multicolumn{1}{c|}{	8	} & \multicolumn{1}{c|}{	100	} &  \multicolumn{1}{c|}{	800	} \\ \hline
+	
+	\multicolumn{3}{|c|}{SUBTOTAL COSTOS INDIRECTOS} &
+	  \multicolumn{1}{c|}{800 } \\ \hline
+	\rowcolor[HTML]{C0C0C0}
+	\multicolumn{3}{|c|}{TOTAL} &
+	\multicolumn{1}{c|}{ 3.726 }
+	   \\ \hline
+	\end{tabularx}%
+	\end{table}
 
 \section{13. Gestión de riesgos}
 \label{sec:riesgos}
