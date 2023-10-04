@@ -74,6 +74,7 @@ Revisión & \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}Detalles de los cambios 
 2.0    & Se completa hasta el punto 9 y se hacen correciones    & 14/09/2023 \\ \hline
 3.0    & Se completa hasta el punto 12 y se hacen correciones    & 26/09/2023 \\ \hline
 4.0    & Se completa hasta el punto 15                          & 28/09/2023 \\ \hline
+5.0    & Se corrige y completa el plan de trabajo               & 03/10/2023 \\ \hline
 %		  Se puede agregar algo más \newline
 %		  En distintas líneas \newline
 %		  Así                                                    & dd/mm/aaaa \\ \hline
@@ -520,10 +521,10 @@ a) Riesgos identificados:
 Riesgo 1: correr el algoritmo de detección de objetos e imágenes en la OrangePI5 no implicará profundizar en este tema.
 \begin{itemize}
 	\item Severidad (S): 9. En el caso de se requiera hacer modificaciones en el algoritmo, se necesitará de mucho más tiempo debido a la gran curva de aprendizaje que conlleva dominar los algoritmos de inteligencia artificial.
-	\item Probabilidad de ocurrencia (O): 8. Es muy dificil encontrar una portabilidad a medida de un sistema a otro, por lo tanto, es posible encontrarse frente a este escenario.
+	\item Probabilidad de ocurrencia (O): 8. Es muy difícil encontrar una portabilidad a medida de un sistema a otro, por lo tanto, es posible encontrarse frente a este escenario.
 \end{itemize}   
 
-Riesgo 2: se retrase la entrega de la nueva PCB de modulo de entradas y salidas digitales adaptada a la OrangePI5. 
+Riesgo 2: se retrase la entrega de la nueva PCB de módulo de entradas y salidas digitales adaptada a la OrangePI5. 
 \begin{itemize}
 	\item Severidad (S): 8. El proyecto gira en torno a este módulo, un retraso en la adquisición significaría retrasos.
 	\item Ocurrencia (O): 8. El problema sería al momento de importar la PCB personalizada, ya que mucha veces la aduana se demora en liberar los productos y en Ecuador siempre ocurre esto.  
@@ -543,8 +544,8 @@ Riesgo 4: problemas con el uso de la NPU de la OrangePI5.
 
 Riesgo 5: no contar con el stock de materiales eléctricos, cámaras, balizas, tableros LED y parlantes para hacer pruebas de laboratorio.
 \begin{itemize}
-	\item Severidad (S): 5. Se puede encontrar reemplazos a estos materiales localmente.
-	\item Ocurrencia (O): 1. Se está importando balizas y tableros led actualmente.
+	\item Severidad (S): 5. Se pueden encontrar reemplazos a estos materiales localmente.
+	\item Ocurrencia (O): 1. Se están importando balizas y tableros led actualmente.
 \end{itemize}
 
 b) Tabla de gestión de riesgos:      (El RPN se calcula como RPN=SxO)
@@ -614,7 +615,7 @@ Riesgo 2: se utilizará la versión antigua del módulo de entradas y salidas di
 		
 		\begin{itemize}
 			\item Verificación: se revisará toda la documentación en la comunidad de python asociado a los periféricos a usar de la OrangePI5. 
-			\item Validación: integración y compatibilidad con el algoritmo de inteligencia artificial que se desarolló en python por SIEMAV.  
+			\item Validación: se demostrará el funcionamiento de las APIs desarrolladas en python.
 		\end{itemize}
 		
 		\end{itemize}
@@ -633,25 +634,25 @@ Riesgo 2: se utilizará la versión antigua del módulo de entradas y salidas di
 \item Req \#5: la OrangePI5 mediante el módulo de entradas y salidas digitales, leerá por andén dos señales de entradas; \textit{manualauto} y \textit{confirmacion}.  Además, activará cinco salidas por andén las cuales son; \textit{balizarojo}, \textit{balizaamarillo}, \textit{balizaverde}, \textit{parlante} y \textit{activarcontador} .
 \begin{itemize}
 		\item Verificación: se desarrollarán las APIs para el uso del módulo de entradas y salidas digitales con la OrangePI5. 
-		\item Validación: se hará una prueba de labotorio donde se estimule al sistema y comprobar su respuesta ya sea en lectura como escritura.  
+		\item Validación: se hará una prueba de labotorio donde se estimule al sistema para comprobar su respuesta, ya sea tanto en lectura como escritura.  
 	\end{itemize}
 	
 	\end{itemize}
 
 \begin{itemize} 
-\item Req \#6: indiferente del modo de operación del sistema, se debe usar las balizas y parlantes para indicar el estado del proceso.
+\item Req \#6: indiferente del modo de operación del sistema, se deben usar las balizas y parlantes para indicar el estado del proceso.
 \begin{itemize}
 		\item Verificación: consultar con director de proyecto el margen de tiempo para cada color de baliza. 
-		\item Validación: hacer una prueba de laboratorio donde se pueda visualizar los diferentes colores según el tiempo de abastecimiento.  
+		\item Validación: hacer una prueba de laboratorio donde se puedan visualizar los diferentes colores según el tiempo de abastecimiento.  
 	\end{itemize}
 	
 	\end{itemize}
 
 
 \begin{itemize} 
-\item Req \#7: se debe utilizar trama UDP para enviar comandos al tablero led que se usará como el cronómetro del proceso.
+\item Req \#7: se debe utilizar una trama UDP para enviar comandos al tablero led que se usará como el cronómetro del proceso.
 \begin{itemize}
-		\item Verificación: estudiar la hoja de datos del tablero LED y verificar como se debe enviar la trama. 
+		\item Verificación: estudiar la hoja de datos del tablero LED y verificar cómo se debe enviar la trama. 
 		\item Validación: manejar el tablero LED con la OrangePI5 para mostrar el tiempo transcurrido en el abastecimiento.  
 	\end{itemize}
 	
@@ -667,10 +668,10 @@ Riesgo 2: se utilizará la versión antigua del módulo de entradas y salidas di
 	\end{itemize}
 
 \begin{itemize} 
-\item Req \#9: en modo automático, el software mediante el algoritmo de intelegencia artificial, debe detectar cuando un andén es ocupado por un vehículo e iniciar el contador.
+\item Req \#9: en modo automático, el software mediante el algoritmo de intelegencia artificial debe detectar cuándo un andén es ocupado por un vehículo e iniciar el contador.
 \begin{itemize}
 		\item Verificación: se analizará la salida del algoritmo que sería una clasificación binaria que indica si se encuentra ocupado el andén o si se encuentra libre.
-		\item Validación: se hará una prueba de laboratorio en un parqueadero, donde se iniciará el contador automáticamente cuando un vehículo se estacione.  
+		\item Validación: se hará una demostración en un parqueadero, donde se espera que inicie el contador automáticamente luego de que un vehículo se estacione.  
 	\end{itemize}
 	
 	\end{itemize}
